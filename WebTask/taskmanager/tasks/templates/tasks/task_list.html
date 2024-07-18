@@ -1,0 +1,50 @@
+<!-- tasks/templates/tasks/task_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+    <link rel="stylesheet" href="{% static 'tasks/css/styles.css' %}">
+</head>
+<body>
+    <h1>Task List</h1>
+    <a href="{% url 'task_create' %}">Create Task</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Scheduled Time</th>
+                <th>Completed</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.scheduled_time }}</td>
+                <td>{{ task.completed }}</td>
+                <td>
+                    <a href="{% url 'task_edit' task.pk %}">Edit</a>
+                    <a href="{% url 'task_delete' task.pk %}">Delete</a>
+                    <a href="{% url 'task_complete' task.pk %}">Mark as Completed</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div id="calendar"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                events: '/tasks/events/'
+            });
+        });
+    </script>
+</body>
+</html>
